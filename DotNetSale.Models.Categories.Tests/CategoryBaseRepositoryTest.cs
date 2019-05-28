@@ -9,14 +9,14 @@ namespace DotNetSale.Models.Categories.Tests
     [TestClass]
     public class CategoryBaseRepositoryTest
     {
-        private CategoryBaseRepository repository;
+        private CategoryBaseRepository _repository;
 
         public CategoryBaseRepositoryTest()
         {
             var connectionString =
                 "server=(localdb)\\mssqllocaldb;" +
                 "database=DotNetSale;integrated security=true;";
-            repository = new CategoryBaseRepository(connectionString);
+            _repository = new CategoryBaseRepository(connectionString);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace DotNetSale.Models.Categories.Tests
         [TestMethod]
         public void OpenMethodTest()
         {
-            var result = repository.Open();
+            var result = _repository.Open();
 
             if (result)
             {
@@ -60,7 +60,7 @@ namespace DotNetSale.Models.Categories.Tests
         {
             string message = "로그 메서드 테스트";
 
-            repository.Log(message);
+            _repository.Log(message);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace DotNetSale.Models.Categories.Tests
         [TestMethod]
         public void HasMethodTest()
         {
-            int count = repository.Has();
+            int count = _repository.Has();
 
             Console.WriteLine($"{count}개의 데이터가 있습니다.");
         }
@@ -83,7 +83,7 @@ namespace DotNetSale.Models.Categories.Tests
             CategoryBase model = new CategoryBase();
             model.CategoryName = "생활용품";
 
-            var r = repository.Add(model);
+            var r = _repository.Add(model);
 
             Assert.AreEqual(r.CategoryName, model.CategoryName);
         }
@@ -94,7 +94,7 @@ namespace DotNetSale.Models.Categories.Tests
         [TestMethod]
         public void ReadMethodTest()
         {
-            var categories = repository.Read();
+            var categories = _repository.Read();
 
             PrintCategories(categories);
         }
@@ -106,7 +106,7 @@ namespace DotNetSale.Models.Categories.Tests
         public void BrowseMethodTest()
         {
             int categoryId = 1;
-            var category = repository.Browse(categoryId);
+            var category = _repository.Browse(categoryId);
             if (category != null)
             {
                 Console.WriteLine(
@@ -126,7 +126,7 @@ namespace DotNetSale.Models.Categories.Tests
         {
             var model = new CategoryBase { CategoryId = 0, CategoryName = "BOOKS" };
 
-            var isEdited = repository.Edit(model);
+            var isEdited = _repository.Edit(model);
 
             if (isEdited)
             {
@@ -146,7 +146,7 @@ namespace DotNetSale.Models.Categories.Tests
         {
             var number = 3;
 
-            var isDeleted = repository.Delete(number);
+            var isDeleted = _repository.Delete(number);
 
             if (isDeleted)
             {
@@ -164,7 +164,7 @@ namespace DotNetSale.Models.Categories.Tests
         [TestMethod]
         public void SearchMethodTest()
         {
-            var categories = repository.Search("용");
+            var categories = _repository.Search("용");
 
             PrintCategories(categories);
         }
@@ -175,7 +175,7 @@ namespace DotNetSale.Models.Categories.Tests
         [TestMethod]
         public void PagingMethodTest()
         {
-            var categories = repository.Paging(2, 3);
+            var categories = _repository.Paging(2, 3);
 
             PrintCategories(categories);
         }
@@ -186,7 +186,7 @@ namespace DotNetSale.Models.Categories.Tests
         [TestMethod]
         public void OrderingMethodTest()
         {
-            var categories = repository.Ordering(OrderOption.None);
+            var categories = _repository.Ordering(OrderOption.None);
 
             PrintCategories(categories.ToList());
         }
