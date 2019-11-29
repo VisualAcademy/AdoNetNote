@@ -1,4 +1,5 @@
 ﻿// Install-Package System.Data.SqlClient
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,12 +16,14 @@ namespace VideoAppCore.Models
             this._connectionString = connectionString;
         }
 
+        // 동기 방식
         public Video AddVideo(Video model)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 const string query = 
-                    "Insert Into Videos(Title, Url, Name, Company, CreatedBy) Values(@Title, @Url, @Name, @Company, @CreatedBy);";
+                    "Insert Into Videos(Title, Url, Name, Company, CreatedBy) Values(@Title, @Url, @Name, @Company, @CreatedBy);" +
+                    "Select Cast(SCOPE_IDENTITY() As Int);";
                 SqlCommand cmd = new SqlCommand(query, con) { CommandType = CommandType.Text };
 
                 cmd.Parameters.AddWithValue("@Title", model.Title);
@@ -30,19 +33,21 @@ namespace VideoAppCore.Models
                 cmd.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
 
                 con.Open();
-                cmd.ExecuteNonQuery(); 
+                model.Id = Convert.ToInt32(cmd.ExecuteScalar()); 
                 con.Close();
             }
 
             return model; 
         }
 
+        // 비동기 방식
         public async Task<Video> AddVideoAsync(Video model)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 const string query =
-                    "Insert Into Videos(Title, Url, Name, Company, CreatedBy) Values(@Title, @Url, @Name, @Company, @CreatedBy);";
+                    "Insert Into Videos(Title, Url, Name, Company, CreatedBy) Values(@Title, @Url, @Name, @Company, @CreatedBy);" +
+                    "Select Cast(SCOPE_IDENTITY() As Int);";
                 SqlCommand cmd = new SqlCommand(query, con) { CommandType = CommandType.Text };
 
                 cmd.Parameters.AddWithValue("@Title", model.Title);
@@ -52,7 +57,11 @@ namespace VideoAppCore.Models
                 cmd.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
 
                 con.Open();
-                await cmd.ExecuteNonQueryAsync();
+                object result = await cmd.ExecuteScalarAsync();
+                if (int.TryParse(result.ToString(), out int id))
+                {
+                    model.Id = id; 
+                }
                 con.Close();
             }
 

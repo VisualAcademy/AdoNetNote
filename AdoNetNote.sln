@@ -19,6 +19,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VideoAppCore.SqlServer", "V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppCore.Models", "VideoAppCore.Models\VideoAppCore.Models.csproj", "{8218E40D-1CF4-4D21-86C6-ECA29DA8B38C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppCore.Models.Tests", "VideoAppCore.Models.Tests\VideoAppCore.Models.Tests.csproj", "{31B5FD1D-B452-45AA-804A-E406239CA37A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{8218E40D-1CF4-4D21-86C6-ECA29DA8B38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8218E40D-1CF4-4D21-86C6-ECA29DA8B38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8218E40D-1CF4-4D21-86C6-ECA29DA8B38C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B5FD1D-B452-45AA-804A-E406239CA37A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B5FD1D-B452-45AA-804A-E406239CA37A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B5FD1D-B452-45AA-804A-E406239CA37A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B5FD1D-B452-45AA-804A-E406239CA37A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{9EF3F97D-E43E-4343-824A-E0B4310C9CAE} = {2B63F780-C80F-44D8-9AF3-4ECFFEBBCDF9}
 		{A552F903-CBAB-4BAB-B63F-8EB76B5155E7} = {FAF80C3E-598D-403F-9866-08146C1F69C6}
 		{8218E40D-1CF4-4D21-86C6-ECA29DA8B38C} = {FAF80C3E-598D-403F-9866-08146C1F69C6}
+		{31B5FD1D-B452-45AA-804A-E406239CA37A} = {FAF80C3E-598D-403F-9866-08146C1F69C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {276AD2C8-351B-461B-869C-3BAB0A1FA87C}
