@@ -68,9 +68,70 @@ namespace VideoAppCore.Models
             return model;
         }
 
+        // 상세: 동기
         public Video GetVideoById(int id)
         {
-            throw new System.NotImplementedException();
+            Video video = new Video();
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = "Select * From Videos Where Id = @Id";
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    video.Id = dr.GetInt32(0);
+                    video.Title = dr["Title"].ToString();
+                    video.Url = dr["Url"].ToString();
+                    video.Name = dr["Name"].ToString();
+                    video.Company = dr["Company"].ToString();
+                    video.CreatedBy = dr["CreatedBy"].ToString();
+                    video.Created = Convert.ToDateTime(dr["Created"]);
+                }
+                con.Close();
+            }
+
+            return video;
+        }
+
+        // 상세: 비동기
+        public async Task<Video> GetVideoByIdAsync(int id)
+        {
+            Video video = new Video();
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = "Select * From Videos Where Id = @Id";
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                SqlDataReader dr = await cmd.ExecuteReaderAsync();
+                if (dr.Read())
+                {
+                    video.Id = dr.GetInt32(0);
+                    video.Title = dr["Title"].ToString();
+                    video.Url = dr["Url"].ToString();
+                    video.Name = dr["Name"].ToString();
+                    video.Company = dr["Company"].ToString();
+                    video.CreatedBy = dr["CreatedBy"].ToString();
+                    video.Created = Convert.ToDateTime(dr["Created"]);
+                }
+                con.Close();
+            }
+
+            return video;
         }
 
         // 출력
@@ -143,14 +204,106 @@ namespace VideoAppCore.Models
             return videos;
         }
 
+        // 삭제
         public void RemoveVideo(int id)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = "Delete Videos Where Id = @Id";
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                cmd.Parameters.AddWithValue("@Id", id);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
         }
 
+        // 삭제 비동기
+        public async Task RemoveVideoAsync(int id)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = "Delete Videos Where Id = @Id";
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                cmd.Parameters.AddWithValue("@Id", id);
+                con.Open();
+                await cmd.ExecuteNonQueryAsync();
+                con.Close();
+            }
+        }
+
+        // 수정
         public Video UpdateVideo(Video model)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = @"
+                    Update Videos 
+                    Set 
+                        Title = @Title, 
+                        Url = @Url, 
+                        Name = @Name, 
+                        Company = @Company, 
+                        ModifiedBy = @ModifiedBy 
+                    Where Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(query, con) { CommandType = CommandType.Text };
+
+                cmd.Parameters.AddWithValue("@Id", model.Id);
+
+                cmd.Parameters.AddWithValue("@Title", model.Title);
+                cmd.Parameters.AddWithValue("@Url", model.Url);
+                cmd.Parameters.AddWithValue("@Name", model.Name);
+                cmd.Parameters.AddWithValue("@Company", model.Company);
+                cmd.Parameters.AddWithValue("@ModifiedBy", model.ModifiedBy);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            return model;
+        }
+
+        // 수정 비동기
+        public async Task<Video> UpdateVideoAsync(Video model)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = @"
+                    Update Videos 
+                    Set 
+                        Title = @Title, 
+                        Url = @Url, 
+                        Name = @Name, 
+                        Company = @Company, 
+                        ModifiedBy = @ModifiedBy 
+                    Where Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(query, con) { CommandType = CommandType.Text };
+
+                cmd.Parameters.AddWithValue("@Id", model.Id);
+
+                cmd.Parameters.AddWithValue("@Title", model.Title);
+                cmd.Parameters.AddWithValue("@Url", model.Url);
+                cmd.Parameters.AddWithValue("@Name", model.Name);
+                cmd.Parameters.AddWithValue("@Company", model.Company);
+                cmd.Parameters.AddWithValue("@ModifiedBy", model.ModifiedBy);
+
+                con.Open();
+                await cmd.ExecuteNonQueryAsync();
+                con.Close();
+            }
+
+            return model;
         }
     }
 }

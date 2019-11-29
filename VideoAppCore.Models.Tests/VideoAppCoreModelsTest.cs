@@ -38,5 +38,25 @@ namespace VideoAppCore.Models.Tests
                 Console.WriteLine($"{video.Id} - {video.Title}");
             }
         }
+
+        [TestMethod]
+        public async Task GetVideoByIdAsyncTest()
+        {
+            var video = await _repository.GetVideoByIdAsync(1);
+            Console.WriteLine($"{video.Id} - {video.Title}");
+        }
+
+        [TestMethod]
+        public async Task RemoveVideoAsyncTest()
+        {
+            await _repository.RemoveVideoAsync(1);            
+        }
+
+        [TestMethod]
+        public async Task UpdateVideoAsyncTest()
+        {
+            Video video = new Video { Id = 4, Title = "EF Core", Url = "URL", Name = "Park", Company = "VisualAcademy", ModifiedBy = "Park" };
+            await _repository.UpdateVideoAsync(video); 
+        }
     }
 }
