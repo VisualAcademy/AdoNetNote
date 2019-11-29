@@ -73,9 +73,74 @@ namespace VideoAppCore.Models
             throw new System.NotImplementedException();
         }
 
+        // 출력
         public List<Video> GetVideos()
         {
-            throw new System.NotImplementedException();
+            List<Video> videos = new List<Video>();
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = "Select * From Videos;";
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Video video = new Video
+                    {
+                        Id = dr.GetInt32(0),
+                        Title = dr["Title"].ToString(),
+                        Url = dr["Url"].ToString(),
+                        Name = dr["Name"].ToString(),
+                        Company = dr["Company"].ToString(),
+                        CreatedBy = dr["CreatedBy"].ToString(),
+                        Created = Convert.ToDateTime(dr["Created"])
+                    };
+                    videos.Add(video);
+                }
+                con.Close();
+            }
+
+            return videos;
+        }
+
+        // 출력
+        public async Task<List<Video>> GetVideosAsync()
+        {
+            List<Video> videos = new List<Video>();
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                const string query = "Select * From Videos;";
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                con.Open();
+                SqlDataReader dr = await cmd.ExecuteReaderAsync();
+                while (dr.Read())
+                {
+                    Video video = new Video
+                    {
+                        Id = dr.GetInt32(0),
+                        Title = dr["Title"].ToString(),
+                        Url = dr["Url"].ToString(),
+                        Name = dr["Name"].ToString(),
+                        Company = dr["Company"].ToString(),
+                        CreatedBy = dr["CreatedBy"].ToString(),
+                        Created = Convert.ToDateTime(dr["Created"])
+                    };
+                    videos.Add(video);
+                }
+                con.Close();
+            }
+
+            return videos;
         }
 
         public void RemoveVideo(int id)

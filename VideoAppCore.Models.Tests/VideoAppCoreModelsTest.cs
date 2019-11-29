@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Threading.Tasks;
 
 namespace VideoAppCore.Models.Tests
@@ -19,11 +20,23 @@ namespace VideoAppCore.Models.Tests
         [TestMethod]
         public async Task AddVideoAsyncTest()
         {
-            Video video = new Video { Title = "ADO.NET", Url = "URL", Name = "Park", Company = "VisualAcademy", CreatedBy = "Park" };
+            //Video video = new Video { Title = "ADO.NET", Url = "URL", Name = "Park", Company = "VisualAcademy", CreatedBy = "Park" };
+            Video video = new Video { Title = "Dapper", Url = "URL", Name = "Park", Company = "VisualAcademy", CreatedBy = "Park" };
 
             Video newVideo = await _repository.AddVideoAsync(video);
 
             Assert.AreEqual(1, newVideo.Id);
+        }
+
+        [TestMethod]
+        public async Task GetVideosAsyncTest()
+        {
+            var videos = await _repository.GetVideosAsync();
+
+            foreach (var video in videos)
+            {
+                Console.WriteLine($"{video.Id} - {video.Title}");
+            }
         }
     }
 }
