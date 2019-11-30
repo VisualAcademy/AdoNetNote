@@ -169,7 +169,7 @@ namespace VideoAppCore.Models
             return videos;
         }
 
-        // 출력
+        // 출력: 비동기 방식
         public async Task<List<Video>> GetVideosAsync()
         {
             List<Video> videos = new List<Video>();
@@ -222,7 +222,7 @@ namespace VideoAppCore.Models
             }
         }
 
-        // 삭제 비동기
+        // 삭제: 비동기 방식
         public async Task RemoveVideoAsync(int id)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
@@ -273,7 +273,7 @@ namespace VideoAppCore.Models
             return model;
         }
 
-        // 수정 비동기
+        // 수정: 비동기 방식
         public async Task<Video> UpdateVideoAsync(Video model)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
